@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id    String  @id @default(cuid())
+  email String? @unique
+  phone String? @unique
+
+  name       String?
+  password   String?
+  avatarPath String? @map("avatar_path")
+
+  rights Role[] @default([ADMIN])
+
+  @@map("admin")
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String?
+  imagePath String? @map("image_path")
+
+  @@map("post")
+}
+
+model SocialLinks {
+  id Int @id @default(0)
+
+  artStationLink String? @map("art_station_link")
+  instagramLink  String? @map("instagram_link")
+  youtubeLink    String? @map("youtube_link")
+  telegramLink   String? @map("telegram_link")
+
+  @@map("social_links")
+}
+
+model File {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title   String @unique
+  fileUrl String @map("file_url")
+
+  @@map("files")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
