@@ -4,7 +4,6 @@ import { hash } from 'argon2'
 
 import { PrismaService } from 'src/prisma.service'
 import { AdminProfileDto } from './dto/adminProfile.dto'
-import { PostDto } from './dto/post.dto'
 import { SocialLinksDto } from './dto/socialLinks.dto'
 
 @Injectable()
@@ -75,25 +74,5 @@ export class AdminService {
 			},
 			data
 		})
-	}
-
-	// Admin Post
-
-	async createPost(data: PostDto) {
-		const posts = await this.prisma.post.create({
-			data
-		})
-
-		return posts
-	}
-	async updatePosts(data: PostDto) {
-		const posts = await this.prisma.post.update({
-			where: {
-				id: data.id
-			},
-			data
-		})
-
-		return posts
 	}
 }

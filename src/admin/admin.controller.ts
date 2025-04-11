@@ -5,7 +5,6 @@ import {
 	Controller,
 	Get,
 	HttpCode,
-	Post,
 	Put,
 	UsePipes,
 	ValidationPipe
@@ -13,7 +12,6 @@ import {
 import { Role } from '@prisma/client'
 import { AdminService } from './admin.service'
 import { AdminProfileDto } from './dto/adminProfile.dto'
-import { PostDto } from './dto/post.dto'
 import { SocialLinksDto } from './dto/socialLinks.dto'
 
 @Controller('admin')
@@ -46,21 +44,5 @@ export class AdminController {
 		@Body() dto: SocialLinksDto
 	) {
 		return this.adminService.updateSocialLinks(adminId, dto)
-	}
-
-	@UsePipes(new ValidationPipe())
-	@HttpCode(200)
-	@Auth(Role.ADMIN)
-	@Post('posts')
-	async createPost(@Body() dto: PostDto) {
-		return this.adminService.createPost(dto)
-	}
-
-	@UsePipes(new ValidationPipe())
-	@HttpCode(200)
-	@Auth(Role.ADMIN)
-	@Put('posts')
-	async updatePosts(@Body() dto: PostDto) {
-		return this.adminService.updatePosts(dto)
 	}
 }

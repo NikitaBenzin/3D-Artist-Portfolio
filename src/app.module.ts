@@ -11,6 +11,9 @@ import { FileModule } from './files/files.module'
 import { HomeModule } from './home/home.module'
 import { HomeService } from './home/home.service'
 import { PrismaService } from './prisma.service'
+import { PostsController } from './posts/posts.controller';
+import { PostsService } from './posts/posts.service';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
 	imports: [
@@ -30,8 +33,10 @@ import { PrismaService } from './prisma.service'
 		AuthModule,
 		AdminModule,
 		FileModule,
-		HomeModule
+		HomeModule,
+		PostsModule
 	],
-	providers: [HomeService, PrismaService]
+	providers: [HomeService, PrismaService, PostsService],
+	controllers: [PostsController]
 })
 export class AppModule {}

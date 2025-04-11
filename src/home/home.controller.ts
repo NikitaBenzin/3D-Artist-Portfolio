@@ -1,14 +1,9 @@
 import { Controller, Get } from '@nestjs/common'
 import { HomeService } from './home.service'
 
-@Controller('home')
+@Controller()
 export class HomeController {
 	constructor(private readonly homeService: HomeService) {}
-
-	@Get('posts')
-	async getPosts() {
-		return this.homeService.getPosts()
-	}
 
 	@Get('socialLinks')
 	async getSocialLinks() {

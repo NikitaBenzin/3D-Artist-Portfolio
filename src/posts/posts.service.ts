@@ -1,0 +1,54 @@
+import { PrismaService } from '@/prisma.service'
+import { Injectable } from '@nestjs/common'
+import { PostDto } from './dto/post.dto'
+
+@Injectable()
+export class PostsService {
+	constructor(private prisma: PrismaService) {}
+
+	async getPosts() {
+		return this.prisma.post.findMany()
+	}
+
+	async createPost(data: PostDto) {
+		const posts = await this.prisma.post.create({
+			data
+		})
+
+		return posts
+	}
+	async updatePost(data: PostDto) {
+		const post = await this.prisma.post.update({
+			where: {
+				id: data.id
+			},
+			data
+		})
+
+		return post
+	}
+	async deletePost(postId: number) {
+		const post = await this.prisma.post.delete({
+			where: {
+				id: Number(postId)
+			}
+		})
+
+		return post
+	}
+
+	async getPostsByCategory(categoryName: string) {
+		try {
+			const posts = await this.prisma.post.findMany({
+				where: {
+					categoryName:
+						categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+				}
+			})
+
+			return posts
+		} catch (error) {
+			return null
+		}
+	}
+}

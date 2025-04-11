@@ -22,9 +22,10 @@ model Admin {
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
-  title     String?
-  imagePath String? @map("image_path")
+  id           Int     @id @default(autoincrement())
+  title        String?
+  imagePath    String? @map("image_path")
+  categoryName String? @map("category_name")
 
   @@map("post")
 }
@@ -45,7 +46,7 @@ model File {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  title   String @unique
+  title   String
   fileUrl String @map("file_url")
 
   @@map("files")

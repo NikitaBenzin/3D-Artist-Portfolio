@@ -5,10 +5,6 @@ import { Injectable } from '@nestjs/common'
 export class HomeService {
 	constructor(private prisma: PrismaService) {}
 
-	async getPosts() {
-		return this.prisma.post.findMany()
-	}
-
 	async getSocialLinks() {
 		return this.prisma.socialLinks.findFirst({
 			select: {
