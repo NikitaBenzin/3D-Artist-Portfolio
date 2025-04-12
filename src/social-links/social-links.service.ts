@@ -1,8 +1,9 @@
 import { PrismaService } from '@/prisma.service'
+import { SocialLinksDto } from '@/social-links/dto/socialLinks.dto'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class HomeService {
+export class SocialLinksService {
 	constructor(private prisma: PrismaService) {}
 
 	async getSocialLinks() {
@@ -13,6 +14,15 @@ export class HomeService {
 				youtubeLink: true,
 				instagramLink: true
 			}
+		})
+	}
+
+	async updateSocialLinks(data: SocialLinksDto) {
+		return await this.prisma.socialLinks.update({
+			where: {
+				id: 0
+			},
+			data
 		})
 	}
 }

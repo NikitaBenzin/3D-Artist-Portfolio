@@ -12,7 +12,6 @@ import {
 import { Role } from '@prisma/client'
 import { AdminService } from './admin.service'
 import { AdminProfileDto } from './dto/adminProfile.dto'
-import { SocialLinksDto } from './dto/socialLinks.dto'
 
 @Controller('admin')
 export class AdminController {
@@ -33,16 +32,5 @@ export class AdminController {
 		@Body() dto: AdminProfileDto
 	) {
 		return this.adminService.updateProfile(adminId, dto)
-	}
-
-	@UsePipes(new ValidationPipe())
-	@HttpCode(200)
-	@Auth(Role.ADMIN)
-	@Put('socialLinks')
-	async updateSocialLinks(
-		@CurrentUser('id') adminId: string,
-		@Body() dto: SocialLinksDto
-	) {
-		return this.adminService.updateSocialLinks(adminId, dto)
 	}
 }

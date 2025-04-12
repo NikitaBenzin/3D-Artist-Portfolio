@@ -8,12 +8,13 @@ import { AdminModule } from './admin/admin.module'
 import { AuthModule } from './auth/auth.module'
 import { getGoogleRecaptchaConfig } from './config/google-recaptcha.config'
 import { FileModule } from './files/files.module'
-import { HomeModule } from './home/home.module'
-import { HomeService } from './home/home.service'
+import { PostsController } from './posts/posts.controller'
+import { PostsModule } from './posts/posts.module'
+import { PostsService } from './posts/posts.service'
 import { PrismaService } from './prisma.service'
-import { PostsController } from './posts/posts.controller';
-import { PostsService } from './posts/posts.service';
-import { PostsModule } from './posts/posts.module';
+import { SocialLinksController } from './social-links/social-links.controller'
+import { SocialLinksModule } from './social-links/social-links.module'
+import { SocialLinksService } from './social-links/social-links.service'
 
 @Module({
 	imports: [
@@ -33,10 +34,10 @@ import { PostsModule } from './posts/posts.module';
 		AuthModule,
 		AdminModule,
 		FileModule,
-		HomeModule,
-		PostsModule
+		PostsModule,
+		SocialLinksModule
 	],
-	providers: [HomeService, PrismaService, PostsService],
-	controllers: [PostsController]
+	providers: [PrismaService, PostsService, SocialLinksService],
+	controllers: [PostsController, SocialLinksController]
 })
 export class AppModule {}

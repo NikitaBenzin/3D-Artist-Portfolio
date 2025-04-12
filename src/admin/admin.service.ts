@@ -4,7 +4,6 @@ import { hash } from 'argon2'
 
 import { PrismaService } from 'src/prisma.service'
 import { AdminProfileDto } from './dto/adminProfile.dto'
-import { SocialLinksDto } from './dto/socialLinks.dto'
 
 @Injectable()
 export class AdminService {
@@ -65,14 +64,5 @@ export class AdminService {
 						...data
 					}
 				})
-	}
-
-	async updateSocialLinks(id: string, data: SocialLinksDto) {
-		return await this.prisma.socialLinks.update({
-			where: {
-				id: 0
-			},
-			data
-		})
 	}
 }
