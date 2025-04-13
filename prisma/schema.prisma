@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
+model User {
   id    String  @id @default(cuid())
   email String? @unique
   phone String? @unique
@@ -15,6 +15,8 @@ model Admin {
   name       String?
   password   String?
   avatarPath String? @map("avatar_path")
+
+  socialLinks SocialLinks[]
 
   rights Role[] @default([ADMIN])
 
@@ -31,12 +33,13 @@ model Post {
 }
 
 model SocialLinks {
-  id Int @id @default(0)
+  id String @id @default(cuid())
 
-  artStationLink String? @map("art_station_link")
-  instagramLink  String? @map("instagram_link")
-  youtubeLink    String? @map("youtube_link")
-  telegramLink   String? @map("telegram_link")
+  socialMedia String? @map("social_media")
+  link        String?
+
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String
 
   @@map("social_links")
 }

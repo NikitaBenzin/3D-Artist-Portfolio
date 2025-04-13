@@ -7,22 +7,32 @@ export class SocialLinksService {
 	constructor(private prisma: PrismaService) {}
 
 	async getSocialLinks() {
-		return this.prisma.socialLinks.findFirst({
+		return this.prisma.socialLinks.findMany({
 			select: {
-				artStationLink: true,
-				telegramLink: true,
-				youtubeLink: true,
-				instagramLink: true
+				socialMedia: true,
+				link: true
 			}
 		})
 	}
 
-	async updateSocialLinks(data: SocialLinksDto) {
-		return await this.prisma.socialLinks.update({
-			where: {
-				id: 0
-			},
-			data
+	async updateSocialLinks(userId: string, data: SocialLinksDto) {
+		try {
+			return await this.prisma.socialLinks.update({
+				where: {
+					id: userId
+				},
+				data
+			})
+		} catch (error) {
+			return null
+		}
+	}
+	async createSocialLinks(userId: string, data: SocialLinksDto) {
+		return await this.prisma.socialLinks.create({
+			data: {
+				userId: userId,
+				...data
+			}
 		})
 	}
 }

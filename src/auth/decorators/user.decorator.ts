@@ -1,11 +1,11 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import prisma from "@prisma/client";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common'
+import prisma from '@prisma/client'
 
 export const CurrentUser = createParamDecorator(
-  (data: keyof prisma.Admin, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
-    const user = request.user;
+	(data: keyof prisma.User, ctx: ExecutionContext) => {
+		const request = ctx.switchToHttp().getRequest()
+		const user = request.user
 
-    return data ? user[data] : user;
-  }
-);
+		return data ? user[data] : user
+	}
+)

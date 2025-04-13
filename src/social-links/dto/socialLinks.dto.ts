@@ -3,17 +3,13 @@ import { IsOptional, IsString } from 'class-validator'
 export class SocialLinksDto {
 	@IsString()
 	@IsOptional()
-	artStationLink?: string
+	id?: string
 
 	@IsString()
 	@IsOptional()
-	instagramLink?: string
+	socialMedia?: string
 
 	@IsString()
 	@IsOptional()
-	youtubeLink?: string
-
-	@IsString()
-	@IsOptional()
-	telegramLink?: string
+	link?: string
 }

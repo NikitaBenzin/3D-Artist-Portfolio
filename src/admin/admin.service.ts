@@ -10,19 +10,10 @@ export class AdminService {
 	constructor(private prisma: PrismaService) {}
 
 	async create(data: AuthDto) {
-		const admin = this.prisma.admin.create({
+		const admin = this.prisma.user.create({
 			data: {
 				...data,
 				password: await hash(data.password)
-			}
-		})
-
-		await this.prisma.socialLinks.create({
-			data: {
-				telegramLink: '',
-				artStationLink: '',
-				instagramLink: '',
-				youtubeLink: ''
 			}
 		})
 
@@ -30,7 +21,7 @@ export class AdminService {
 	}
 
 	async getById(id: string) {
-		return this.prisma.admin.findUnique({
+		return this.prisma.user.findUnique({
 			where: {
 				id
 			}
@@ -38,7 +29,7 @@ export class AdminService {
 	}
 
 	async getByEmail(email: string) {
-		return this.prisma.admin.findUnique({
+		return this.prisma.user.findUnique({
 			where: {
 				email
 			}
@@ -47,7 +38,7 @@ export class AdminService {
 
 	async updateProfile(id: string, data: AdminProfileDto) {
 		return data.password
-			? this.prisma.admin.update({
+			? this.prisma.user.update({
 					where: {
 						id
 					},
@@ -56,7 +47,7 @@ export class AdminService {
 						password: await hash(data.password)
 					}
 				})
-			: this.prisma.admin.update({
+			: this.prisma.user.update({
 					where: {
 						id
 					},

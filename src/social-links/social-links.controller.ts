@@ -1,10 +1,12 @@
 import { Auth } from '@/auth/decorators/auth.decorator'
+import { CurrentUser } from '@/auth/decorators/user.decorator'
 import { SocialLinksDto } from '@/social-links/dto/socialLinks.dto'
 import {
 	Body,
 	Controller,
 	Get,
 	HttpCode,
+	Post,
 	Put,
 	UsePipes,
 	ValidationPipe
@@ -24,7 +26,21 @@ export class SocialLinksController {
 	@HttpCode(200)
 	@Auth(Role.ADMIN)
 	@Put()
-	async updateSocialLinks(@Body() dto: SocialLinksDto) {
-		return this.socialLinks.updateSocialLinks(dto)
+	async updateSocialLinks(
+		@CurrentUser('id') id: string,
+		@Body() dto: SocialLinksDto
+	) {
+		return this.socialLinks.updateSocialLinks(id, dto)
+	}
+
+	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	@Auth(Role.ADMIN)
+	@Post()
+	async createSocialLinks(
+		@CurrentUser('id') id: string,
+		@Body() dto: SocialLinksDto
+	) {
+		return this.socialLinks.createSocialLinks(id, dto)
 	}
 }

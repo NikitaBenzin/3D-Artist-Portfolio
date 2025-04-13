@@ -30,7 +30,6 @@ export class FileService {
 
 			return file
 		} catch (error) {
-			console.log(error)
 			return error
 		}
 	}
