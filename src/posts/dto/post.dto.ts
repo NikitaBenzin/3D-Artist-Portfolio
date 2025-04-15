@@ -17,3 +17,12 @@ export class PostDto {
 	@IsOptional()
 	categoryName?: string
 }
+
+export class DataPost {
+	data: {
+		id?: number
+		title?: string
+		imagePath?: string
+		categoryName?: string
+	}
+}

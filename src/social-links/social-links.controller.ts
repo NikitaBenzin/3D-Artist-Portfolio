@@ -1,13 +1,15 @@
 import { Auth } from '@/auth/decorators/auth.decorator'
 import { CurrentUser } from '@/auth/decorators/user.decorator'
-import { SocialLinksDto } from '@/social-links/dto/socialLinks.dto'
+import { DataSocialLinks } from '@/social-links/dto/socialLinks.dto'
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	HttpCode,
 	Post,
 	Put,
+	Query,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
@@ -26,21 +28,24 @@ export class SocialLinksController {
 	@HttpCode(200)
 	@Auth(Role.ADMIN)
 	@Put()
-	async updateSocialLinks(
-		@CurrentUser('id') id: string,
-		@Body() dto: SocialLinksDto
-	) {
-		return this.socialLinks.updateSocialLinks(id, dto)
+	async updateSocialLink(@Body() dto: DataSocialLinks) {
+		return this.socialLinks.updateSocialLink(dto)
 	}
 
 	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Auth(Role.ADMIN)
 	@Post()
-	async createSocialLinks(
+	async createSocialLink(
 		@CurrentUser('id') id: string,
-		@Body() dto: SocialLinksDto
+		@Body() dto: DataSocialLinks
 	) {
-		return this.socialLinks.createSocialLinks(id, dto)
+		return this.socialLinks.createSocialLink(id, dto)
+	}
+
+	@Auth(Role.ADMIN)
+	@Delete()
+	async deleteSocialLink(@Query('id') id: string) {
+		return this.socialLinks.deleteSocialLink(id)
 	}
 }

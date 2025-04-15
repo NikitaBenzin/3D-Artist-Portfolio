@@ -1,6 +1,6 @@
 import { PrismaService } from '@/prisma.service'
-import { SocialLinksDto } from '@/social-links/dto/socialLinks.dto'
-import { Injectable } from '@nestjs/common'
+import { DataSocialLinks } from '@/social-links/dto/socialLinks.dto'
+import { BadRequestException, Injectable } from '@nestjs/common'
 
 @Injectable()
 export class SocialLinksService {
@@ -9,30 +9,48 @@ export class SocialLinksService {
 	async getSocialLinks() {
 		return this.prisma.socialLinks.findMany({
 			select: {
+				id: true,
 				socialMedia: true,
 				link: true
 			}
 		})
 	}
 
-	async updateSocialLinks(userId: string, data: SocialLinksDto) {
+	async updateSocialLink(data: DataSocialLinks) {
 		try {
 			return await this.prisma.socialLinks.update({
 				where: {
-					id: userId
+					id: data.data.id
 				},
-				data
+				data: {
+					link: data.data.link
+				}
 			})
 		} catch (error) {
-			return null
+			throw new BadRequestException('Incorrect data entered')
 		}
 	}
-	async createSocialLinks(userId: string, data: SocialLinksDto) {
+	async createSocialLink(userId: string, data: DataSocialLinks) {
 		return await this.prisma.socialLinks.create({
 			data: {
-				userId: userId,
-				...data
+				user: {
+					connect: {
+						id: userId
+					}
+				},
+				socialMedia: data.data.socialMedia,
+				link: data.data.link
 			}
 		})
+	}
+
+	async deleteSocialLink(id: string) {
+		const socialLink = await this.prisma.socialLinks.delete({
+			where: {
+				id
+			}
+		})
+
+		return socialLink
 	}
 }

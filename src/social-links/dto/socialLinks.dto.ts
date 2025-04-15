@@ -13,3 +13,13 @@ export class SocialLinksDto {
 	@IsOptional()
 	link?: string
 }
+
+export class DataSocialLinks {
+	data: {
+		id?: string
+
+		socialMedia?: string
+
+		link?: string
+	}
+}

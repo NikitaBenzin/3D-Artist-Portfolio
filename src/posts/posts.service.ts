@@ -1,6 +1,6 @@
 import { PrismaService } from '@/prisma.service'
 import { Injectable } from '@nestjs/common'
-import { PostDto } from './dto/post.dto'
+import { DataPost } from './dto/post.dto'
 
 @Injectable()
 export class PostsService {
@@ -10,17 +10,19 @@ export class PostsService {
 		return this.prisma.post.findMany()
 	}
 
-	async createPost(data: PostDto) {
+	async createPost(data: DataPost) {
 		const posts = await this.prisma.post.create({
-			data
+			data: {
+				...data.data
+			}
 		})
 
 		return posts
 	}
-	async updatePost(data: PostDto) {
+	async updatePost(data: DataPost) {
 		const post = await this.prisma.post.update({
 			where: {
-				id: data.id
+				id: data.data.id
 			},
 			data
 		})

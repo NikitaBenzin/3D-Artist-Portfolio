@@ -1,22 +1,44 @@
 import { Injectable } from '@nestjs/common'
-import { path } from 'app-root-path'
+import { IFile, IMediaResponse } from '@nestjs/common/pipes/file/interfaces'
+import { path as appRootPath } from 'app-root-path'
 import { ensureDir, remove, writeFile } from 'fs-extra'
+import * as path from 'path'
 import { PrismaService } from 'src/prisma.service'
+import { generateFilename } from './generate-filename'
 
 @Injectable()
 export class FileService {
 	constructor(private prisma: PrismaService) {}
-	async saveFile(file: Express.Multer.File, folder: string = 'default') {
-		const uploadFolder = `${path}/uploads/${folder}`
-		await ensureDir(uploadFolder)
-		await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer)
+	private readonly _outputDir = path.join(appRootPath, 'uploads')
 
-		return this.prisma.file.create({
+	async saveMedia(
+		files: IFile[],
+		folder = 'default'
+	): Promise<IMediaResponse[]> {
+		const folderLowerCase = folder.toLowerCase()
+		const uploadFolder = path.join(this._outputDir, folderLowerCase)
+		await ensureDir(uploadFolder)
+
+		const file = files[0]
+
+		const uniqueFileName = generateFilename(file?.originalname || file?.name)
+		const filePath = path.join(uploadFolder, uniqueFileName)
+
+		await writeFile(filePath, file.buffer)
+
+		await this.prisma.file.create({
 			data: {
-				title: file.originalname,
-				fileUrl: `/uploads/${folder}/${file.originalname}`
+				title: uniqueFileName,
+				fileUrl: `/uploads/${folderLowerCase}/${uniqueFileName}`
 			}
 		})
+
+		return [
+			{
+				url: `/uploads/${folderLowerCase}/${uniqueFileName}`,
+				name: uniqueFileName
+			}
+		]
 	}
 
 	async removeFile(fileId: string) {
@@ -26,8 +48,8 @@ export class FileService {
 					id: fileId
 				}
 			})
-			await remove(`${path}${file.fileUrl}`)
 
+			await remove(path.join(appRootPath, file.fileUrl))
 			return file
 		} catch (error) {
 			return error
