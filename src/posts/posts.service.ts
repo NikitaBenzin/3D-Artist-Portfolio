@@ -24,9 +24,13 @@ export class PostsService {
 	async updatePost(data: DataPost) {
 		const post = await this.prisma.post.update({
 			where: {
-				id: data.data.id
+				id: Number(data.data.id)
 			},
-			data
+			data: {
+				imagePath: data.data.imagePath,
+				title: data.data.title,
+				categoryName: data.data.categoryName
+			}
 		})
 
 		return post
