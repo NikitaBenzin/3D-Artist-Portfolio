@@ -9,10 +9,10 @@ import {
 	UseInterceptors,
 	UsePipes
 } from '@nestjs/common'
-import { IFile } from '@nestjs/common/pipes/file/interfaces'
 import { FilesInterceptor } from '@nestjs/platform-express'
 import { Role } from '@prisma/client'
 import { Auth } from 'src/auth/decorators/auth.decorator'
+import { IFile } from './file.interface'
 import { FileService } from './files.service'
 import { FileValidationPipe } from './pipes/file.validation.pipe'
 import { FolderValidationPipe } from './pipes/folder.validation.pipe'

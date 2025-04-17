@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { IFile, IMediaResponse } from '@nestjs/common/pipes/file/interfaces'
+
 import { path as appRootPath } from 'app-root-path'
 import { ensureDir, remove, writeFile } from 'fs-extra'
 import * as path from 'path'
 import { PrismaService } from 'src/prisma.service'
+import { IFile, IMediaResponse } from './file.interface'
 import { generateFilename } from './generate-filename'
 
 @Injectable()
