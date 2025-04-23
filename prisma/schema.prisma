@@ -36,9 +36,10 @@ model Post {
 model Category {
   id Int @id @default(autoincrement())
 
-  title     String?
-  imagePath String? @map("image_path")
-  posts     Post[]
+  title       String?
+  description String?
+  imagePath   String? @map("image_path")
+  posts       Post[]
 
   @@map("category")
 }
