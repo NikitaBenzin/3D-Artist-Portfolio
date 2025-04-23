@@ -10,10 +10,23 @@ export class PostsService {
 		return this.prisma.post.findMany()
 	}
 
+	async getFirstPostsByCategory() {
+		const groupedPosts = await this.prisma.post.groupBy({
+			by: ['categoryId'],
+			_min: {
+				id: true,
+				categoryId: true,
+				imagePath: true,
+				title: true
+			}
+		})
+		return groupedPosts
+	}
+
 	async createPost(data: DataPost) {
 		const posts = await this.prisma.post.create({
 			data: {
-				categoryName: data.data.categoryName,
+				categoryId: data.data.categoryId,
 				imagePath: data.data.imagePath,
 				title: data.data.title
 			}
@@ -24,9 +37,13 @@ export class PostsService {
 	async updatePost(data: DataPost) {
 		const post = await this.prisma.post.update({
 			where: {
-				id: data.data.id
+				id: Number(data.data.id)
 			},
-			data
+			data: {
+				imagePath: data.data?.imagePath,
+				categoryId: data.data?.categoryId,
+				title: data.data?.title
+			}
 		})
 
 		return post
@@ -39,20 +56,5 @@ export class PostsService {
 		})
 
 		return post
-	}
-
-	async getPostsByCategory(categoryName: string) {
-		try {
-			const posts = await this.prisma.post.findMany({
-				where: {
-					categoryName:
-						categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
-				}
-			})
-
-			return posts
-		} catch (error) {
-			return null
-		}
 	}
 }

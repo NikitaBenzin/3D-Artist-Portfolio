@@ -13,9 +13,9 @@ export class PostDto {
 	@IsOptional()
 	imagePath?: string
 
-	@IsString()
+	@IsNumber()
 	@IsOptional()
-	categoryName?: string
+	categoryId?: number
 }
 
 export class DataPost {
@@ -23,6 +23,6 @@ export class DataPost {
 		id?: number
 		title?: string
 		imagePath?: string
-		categoryName?: string
+		categoryId?: number
 	}
 }

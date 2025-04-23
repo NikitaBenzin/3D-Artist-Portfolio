@@ -15,6 +15,7 @@ import { PrismaService } from './prisma.service'
 import { SocialLinksController } from './social-links/social-links.controller'
 import { SocialLinksModule } from './social-links/social-links.module'
 import { SocialLinksService } from './social-links/social-links.service'
+import { CategoryModule } from './category/category.module';
 
 @Module({
 	imports: [
@@ -35,7 +36,8 @@ import { SocialLinksService } from './social-links/social-links.service'
 		AdminModule,
 		FileModule,
 		PostsModule,
-		SocialLinksModule
+		SocialLinksModule,
+		CategoryModule
 	],
 	providers: [PrismaService, PostsService, SocialLinksService],
 	controllers: [PostsController, SocialLinksController]

@@ -19,7 +19,7 @@ import { PostsService } from './posts.service'
 @Controller('posts')
 export class PostsController {
 	constructor(private readonly postsService: PostsService) {}
-	@Get(':category')
+	@Get('/category/:category')
 	async getPostsByCategory(@Param() params: any) {
 		return this.postsService.getPostsByCategory(params.category)
 	}
@@ -27,6 +27,11 @@ export class PostsController {
 	@Get()
 	async getPosts() {
 		return this.postsService.getPosts()
+	}
+
+	@Get('preview-category')
+	async getFirstPostsByCategory() {
+		return this.postsService.getFirstPostsByCategory()
 	}
 
 	@UsePipes(new ValidationPipe())

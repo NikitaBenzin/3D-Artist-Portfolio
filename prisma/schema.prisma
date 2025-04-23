@@ -24,12 +24,23 @@ model User {
 }
 
 model Post {
-  id           Int     @id @default(autoincrement())
-  title        String?
-  imagePath    String? @map("image_path")
-  categoryName String? @map("category_name")
+  id         Int       @id @default(autoincrement())
+  title      String?
+  imagePath  String?   @map("image_path")
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
 
   @@map("post")
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  title     String?
+  imagePath String? @map("image_path")
+  posts     Post[]
+
+  @@map("category")
 }
 
 model SocialLinks {
