@@ -40,9 +40,15 @@ export class PostsService {
 				id: Number(data.data.id)
 			},
 			data: {
+<<<<<<< HEAD
 				imagePath: data.data?.imagePath,
 				categoryId: data.data?.categoryId,
 				title: data.data?.title
+=======
+				imagePath: data.data.imagePath,
+				title: data.data.title,
+				categoryName: data.data.categoryName
+>>>>>>> d98f8600d394ede6583b4a44d7955c8b58ec4730
 			}
 		})
 
