@@ -13,7 +13,7 @@ export class PostsService {
 	async createPost(data: DataPost) {
 		const posts = await this.prisma.post.create({
 			data: {
-				categoryId: data.data.categoryId,
+				categoryId: Number(data.data.categoryId),
 				imagePath: data.data.imagePath,
 				title: data.data.title
 			}
@@ -28,7 +28,7 @@ export class PostsService {
 			},
 			data: {
 				imagePath: data.data?.imagePath,
-				categoryId: data.data?.categoryId,
+				categoryId: Number(data.data?.categoryId),
 				title: data.data?.title
 			}
 		})

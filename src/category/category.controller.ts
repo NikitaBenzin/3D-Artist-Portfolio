@@ -20,9 +20,9 @@ import { CategoryDto } from './dto/category.dto'
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
-	@Get('/:category')
+	@Get('/:id')
 	async getPostsByCategory(@Param() params: any) {
-		return this.categoryService.getPostsByCategory(params.category)
+		return this.categoryService.getPostsByCategory(params.id)
 	}
 
 	@Get()

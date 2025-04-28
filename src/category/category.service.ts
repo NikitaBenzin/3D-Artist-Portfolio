@@ -8,9 +8,7 @@ export class CategoryService {
 
 	async getAllCategory() {
 		return this.prisma.category.findMany({
-			select: {
-				title: true,
-				description: true,
+			include: {
 				posts: {
 					take: 1
 				}
@@ -18,16 +16,15 @@ export class CategoryService {
 		})
 	}
 
-	async getPostsByCategory(categoryId: number) {
+	async getPostsByCategory(id: number) {
 		try {
 			const posts = await this.prisma.category.findUnique({
 				where: {
-					id: categoryId
+					id: Number(id)
+				},
+				include: {
+					posts: true
 				}
-				// select: {
-
-				// 	posts: true
-				// }
 			})
 
 			return posts
@@ -39,7 +36,7 @@ export class CategoryService {
 	async updateCategory({ data }: CategoryDto) {
 		return this.prisma.category.update({
 			where: {
-				id: data.id
+				id: Number(data.id)
 			},
 			data: {
 				title: data.title,

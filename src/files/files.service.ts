@@ -5,7 +5,6 @@ import { ensureDir, remove, writeFile } from 'fs-extra'
 import * as path from 'path'
 import { PrismaService } from 'src/prisma.service'
 import { IFile, IMediaResponse } from './file.interface'
-import { generateFilename } from './generate-filename'
 
 @Injectable()
 export class FileService {
@@ -22,7 +21,7 @@ export class FileService {
 
 		const file = files[0]
 
-		const uniqueFileName = generateFilename(file?.originalname || file?.name)
+		const uniqueFileName = file?.originalname || file?.name
 		const filePath = path.join(uploadFolder, uniqueFileName)
 
 		await writeFile(filePath, file.buffer)
